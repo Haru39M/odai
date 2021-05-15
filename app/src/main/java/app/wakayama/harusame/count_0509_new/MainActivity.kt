@@ -1,8 +1,10 @@
 package app.wakayama.harusame.count_0509_new
 
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
+import androidx.core.view.isVisible
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlin.random.Random
 
@@ -24,16 +26,25 @@ class MainActivity : AppCompatActivity() {
         fun gameOver(){
             iconStudent.text = "(TAT)"
             iconTeacher.text = "<(▼A▼#)>"
+            secondText.setTextColor(Color.parseColor("#ff0000"))
+            secondText.textSize = 40F
+
         }
 
-        var second = 60
-        val timer: CountDownTimer = object : CountDownTimer(60000,1000) {
+        var second = 30
+        val timer: CountDownTimer = object : CountDownTimer(30000,1000) {
             override fun onFinish() {
                 gameOver()
+                secondText.text = "GAME OVER"
+                upButton.isVisible = false
+                downButton.isVisible = false
+                leftButton.isVisible = false
+                rightButton.isVisible = false
             }
 
             override fun onTick(millisUntilFinished: Long) {
-                TODO("Not yet implemented")
+                second -= 1
+                secondText.text = "残り時間:$second"
             }
 
         }
@@ -72,7 +83,7 @@ class MainActivity : AppCompatActivity() {
         startButton.setOnClickListener{
             score = 0//init
             scoreLabel.text = score.toString()//init
-
+            timer.start()
             init()
 
         }
